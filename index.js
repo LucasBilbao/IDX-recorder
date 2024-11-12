@@ -38,6 +38,10 @@ let hrData = new Array(200).fill(10);
 
 function printHeartRate(event) {
   const heartRate = event.target.value.getInt8(1);
+  let rrInterval;
+  for (let i = 2; i < event.target.value.byteLength; i += 2) {
+    rrInterval = event.target.value.getUint16(i, /* littleEndian= */ true);
+  }
   const prev = hrData[hrData.length - 1];
   hrData[hrData.length] = heartRate;
   hrData = hrData.slice(-200);
@@ -45,16 +49,16 @@ function printHeartRate(event) {
   if (heartRate !== prev) arrow = heartRate > prev ? '⬆' : '⬇';
   console.clear();
   console.graph(hrData);
+  console.log(`%c\n💚 ${heartRate} ${arrow}`, 'font-size: 24px;');
   console.log(
-    `%c\n💚 ${heartRate} ${arrow}`,
+    `%cRR: ${rrInterval}`,
     'font-size: 24px;',
     '\n\n(To disconnect, refresh or close tab)\n\n'
   );
 
-  if (heartRate === prev) {
-    return;
-  }
-  p.innerText = `${p.innerText}BPM: ${heartRate} | Time: ${Date()};\n`;
+  p.innerText = `BPM: ${heartRate} | RR: ${rrInterval} | Time: ${Date()};\n${
+    p.innerText
+  }`;
 }
 
 function setupConsoleGraphExample(height, width) {
