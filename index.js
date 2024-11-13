@@ -1,4 +1,4 @@
-const button = document.querySelector('[data-starter]');
+const startButton = document.querySelector('[data-starter]');
 const copier = document.querySelector('[data-copier]');
 const copierJSON = document.querySelector('[data-copier-json]');
 const stopper = document.querySelector('[data-stopper]');
@@ -6,7 +6,7 @@ const p = document.querySelector('[data-bpm]');
 let char = null;
 let heartInfo = [];
 
-button.addEventListener('click', () => {
+startButton.addEventListener('click', () => {
   console.clear();
   setupConsoleGraphExample(100, 400);
   connect({ onChange: printHeartRate }).catch(console.error);
